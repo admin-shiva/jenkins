@@ -1,0 +1,51 @@
+services:
+  app:
+    image: 051226098679.dkr.ecr.ap-south-1.amazonaws.com/vallal-dev-application:latest
+    container_name: vallal-dev-application
+    working_dir: /var/www
+    volumes:
+      - /home/ubuntu/vallal-dev/uploads:/var/www/public/storage/uploads
+      - /home/ubuntu/vallal-dev/sessions:/var/www/storage/framework/sessions
+    ports:
+      - "9000:9000"
+    environment:
+      APP_NAME: Vallal
+      APP_KEY: base64:Xz0wdyQVN+Y9rmZ1mTfaSPba7rVsuM/rt6JZ93ltXL0=
+      APP_DEBUG: true
+      APP_ENV: production
+      APP_URL: https://dev.vallal.me
+      OPENAI_API_KEY: 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
+      DB_CONNECTION: mysql
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_DATABASE: vallal
+      DB_USERNAME: root
+      DB_PASSWORD: root
+    networks:
+      - laravel
+    depends_on:
+      - db
+  db:
+    image: mysql:8.0
+    container_name: vallal-dev-db
+    ports:
+      - "3308:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: vallal
+      MYSQL_USER: vallal_db_user
+      MYSQL_PASSWORD: VA!!31$32231
+    volumes:
+      - dbdata:/var/lib/mysql
+    networks:
+      - laravel
+
+volumes:
+  dbdata:
+  uploads:
+  sessions:
+
+
+networks:
+  laravel:
+    driver: bridge
